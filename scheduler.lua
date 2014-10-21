@@ -54,14 +54,6 @@ do
       self:initProcess(obj, args)
       self:registerProcessCallbacks(obj)
       table.insert(self.pids, id)
-      _ = [[    print "============"
-    print "AFTER SPAWN"
-    print "============"
-    print "----- PROCESOS"
-    p @processes
-    print "----- PID"
-    p @pids
-    ]]
       return id
     end,
     addProcess = function(self, id, p)
@@ -97,33 +89,21 @@ do
           for k, receive in pairs(p_meta['receive']) do
             if receive == msg:getTag() then
               local m = 'handle_' .. receive
-              local args = {
-                msg:getData(),
-                p_meta['state']
-              }
+              print("running handler: " .. m .. " in pid: " .. pid)
+              local state = p_meta['p']:m(msg:getData(), p_meta['state'])
+              p_meta['state'] = state
+              restack = false
+              break
             end
           end
+          if restack then
+            table.insert(p_meta['inbox'], msg)
+          else
+            self.msg_count = self:msg_count(-1)
+          end
+          self.processes[pid] = p_meta
         end
-        return [[
-            $state = call_user_func_array(array($p_meta['p'], $m), $args);
-            $p_meta['state'] = $state;
-            $restack = false;
-            break;
-          }
-        }
-
-                  if ($restack) {
-                      array_push($p_meta['inbox'], $msg);
-                  } else {
-                      $this->msg_count--;
-                  }
-
-                  $this->processes[$pid] = $p_meta;
-              }
-              array_push($this->pids, $pid);
-          }
-      }
-      ]]
+        return table.insert(self.pids, pid)
       end
     end
   }

@@ -19,6 +19,11 @@ do
         'decr',
         'get_count'
       }
+    end,
+    handle_incr = function(self, msg, state)
+      print(" -> handle_incr: " .. msg)
+      state['count'] = state['count'] .. msg
+      return state
     end
   }
   _base_0.__index = _base_0

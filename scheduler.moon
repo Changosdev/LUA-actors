@@ -42,17 +42,6 @@ class Scheduler
     @initProcess obj, args
     @registerProcessCallbacks obj
     table.insert(@pids, id)
-
-    [[
-    print "============"
-    print "AFTER SPAWN"
-    print "============"
-    print "----- PROCESOS"
-    p @processes
-    print "----- PID"
-    p @pids
-    ]]
-
     return id
 
   addProcess: (id, p) =>
@@ -86,32 +75,22 @@ class Scheduler
         msg = uscore.shift(p_meta['inbox'])
         restack = true
 
-        for k,receive in pairs(p_meta['receive'])
+
+        for k,receive in pairs(p_meta['receive'])  
           if receive == msg\getTag! then
             m = 'handle_' .. receive
-            args = { msg\getData!, p_meta['state'] }
+            print "running handler: " .. m .. " in pid: " .. pid
+            state = p_meta['p']\m msg\getData!, p_meta['state']
+            p_meta['state'] = state
+            restack = false
+            break
 
-      [[
-
-            $state = call_user_func_array(array($p_meta['p'], $m), $args);
-            $p_meta['state'] = $state;
-            $restack = false;
-            break;
-          }
-        }
-
-                  if ($restack) {
-                      array_push($p_meta['inbox'], $msg);
-                  } else {
-                      $this->msg_count--;
-                  }
-
-                  $this->processes[$pid] = $p_meta;
-              }
-              array_push($this->pids, $pid);
-          }
-      }
-      ]]
-
+        if restack then
+          table.insert(p_meta['inbox'], msg)
+        else
+          @msg_count = @msg_count -1
+                  
+        @processes[pid] = p_meta
+      table.insert(@pids, pid)
 
 { :Scheduler }

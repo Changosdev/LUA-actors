@@ -10,12 +10,10 @@ class TCounterClient extends Actor
     @send(args['count_server'], Message('incr', math.random(1,10)))
     @send(args['count_server'], Message('decr', math.random(1,10)))
     @send(args['count_server'], Message('get_count', { sender: @selfe! } ))
-    
-
     return { server: args['count_server'] }
 
   receive: =>
-    return {'count'}
+    return { 'count' }
 
   handle_count: (msg, state) =>
     print "#{self!}: got count #{msg}"
@@ -31,4 +29,3 @@ class TCounterClient extends Actor
     return state
 
 { :TCounterClient }
-
