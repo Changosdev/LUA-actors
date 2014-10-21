@@ -1,6 +1,6 @@
 local Actor
 do
-  local _obj_0 = require("../actor")
+  local _obj_0 = require("actor")
   Actor = _obj_0.Actor
 end
 local TCounter

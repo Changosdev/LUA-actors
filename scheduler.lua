@@ -1,14 +1,19 @@
+local TCounter
+do
+  local _obj_0 = require("actors.TCounter")
+  TCounter = _obj_0.TCounter
+end
+local TCounterClient
+do
+  local _obj_0 = require("actors.TCounterClient")
+  TCounterClient = _obj_0.TCounterClient
+end
+local uscore = require('lib/underscore')
 local p
 do
   local _obj_0 = require("moon")
   p = _obj_0.p
 end
-local TCounter
-do
-  local _obj_0 = require("TCounter")
-  TCounter = _obj_0.TCounter
-end
-local uscore = require('lib/underscore')
 local Scheduler
 do
   local _base_0 = {
@@ -28,15 +33,28 @@ do
       if args == nil then
         args = { }
       end
-      local obj = TCounter()
-      local id = 257
+      local _ = [[      IMPLENT AUTOLOAD
+    ]]
+      local obj, id
+      if m == 'TCounter' then
+        id = 257
+        obj = TCounter()
+      else
+        if m == 'TCounterClient' then
+          id = 311
+          obj = TCounterClient()
+        else
+          print("Cannot find the actor: " .. tostring(m))
+          os.exit()
+        end
+      end
       obj:setId(id)
       obj:setScheduler(self)
       self:addProcess(id, obj)
       self:initProcess(obj, args)
       self:registerProcessCallbacks(obj)
       table.insert(self.pids, id)
-      local _ = [[    print "============"
+      _ = [[    print "============"
     print "AFTER SPAWN"
     print "============"
     print "----- PROCESOS"

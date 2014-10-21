@@ -1,4 +1,4 @@
-import Actor from require "../actor"
+import Actor from require "actor"
 
 class TCounter extends Actor
   -- Always declare this two function

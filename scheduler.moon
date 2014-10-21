@@ -1,6 +1,11 @@
-import p from require "moon"
-import TCounter from require "TCounter"
+--import autoload from require "lib.autoload"
+import TCounter from require "actors.TCounter"
+import TCounterClient from require "actors.TCounterClient"
+
 uscore = require 'lib/underscore'
+
+import p from require "moon"
+
 
 class Scheduler
   run: true
@@ -16,9 +21,21 @@ class Scheduler
     @run = false
 
   spawn: (m, args = {}) =>
-    obj = TCounter!
+    [[
+      IMPLENT AUTOLOAD
+    ]]
+    local obj, id
+    if m == 'TCounter' then
+      id = 257
+      obj = TCounter!
+    else if m == 'TCounterClient' then
+      id = 311
+      obj = TCounterClient!
+    else
+      print "Cannot find the actor: #{m}"
+      os.exit()
+
     --id = spl_object_hash obj --
-    id = 257
     obj\setId id
     obj\setScheduler @
     @addProcess id, obj
