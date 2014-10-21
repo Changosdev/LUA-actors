@@ -8,6 +8,7 @@ do
   local _parent_0 = Actor
   local _base_0 = {
     initialize = function(self, args)
+      print("Initialize TCounter")
       return {
         count = 0
       }

@@ -71,15 +71,21 @@ do
         inbox = { }
       }
     end,
-    initProcess = function(self, p, args)
-      local p_selfe = p:selfe()
-      local p_init = p:initialize(args)
+    initProcess = function(self, obj, args)
+      local p_selfe = obj:selfe()
+      local p_init = obj:initialize(args)
       self.processes[p_selfe]['state'] = p_init
     end,
     registerProcessCallbacks = function(self, p)
       local p_selfe = p:selfe()
       local p_receive = p:receive()
       self.processes[p_selfe]['receive'] = p_receive
+    end,
+    send = function(self, pid, msg)
+      if self.processes[pid] then
+        table.insert(self.processes[pid]['inbox'], msg)
+        self.msg_count = self.msg_count + 1
+      end
     end,
     schedule = function(self)
       if self.msg_count > 0 and next(self.processes) ~= nil then

@@ -5,10 +5,13 @@ import Message from require "message"
 class TCounterClient extends Actor
   -- Always declare this two function
   initialize: (args) =>
+    print "Initialize TCounterClient"
     @send(args['count_server'], Message('incr', math.random(1,10)))
     @send(args['count_server'], Message('incr', math.random(1,10)))
     @send(args['count_server'], Message('decr', math.random(1,10)))
     @send(args['count_server'], Message('get_count', { sender: @selfe! } ))
+    
+
     return { server: args['count_server'] }
 
   receive: =>

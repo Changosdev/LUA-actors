@@ -62,9 +62,9 @@ class Scheduler
       inbox: {}
     }
 
-  initProcess: (p, args) =>
-    p_selfe = p\selfe!
-    p_init = p\initialize(args)
+  initProcess: (obj, args) =>
+    p_selfe = obj\selfe!
+    p_init = obj\initialize(args)
     @processes[p_selfe]['state'] = p_init
 
   registerProcessCallbacks: (p) =>
@@ -72,11 +72,16 @@ class Scheduler
     p_receive = p\receive!
     @processes[p_selfe]['receive'] = p_receive
 
+  send: (pid, msg) =>
+    if @processes[pid]
+      table.insert(@processes[pid]['inbox'], msg)
+      @msg_count = @msg_count + 1
+
   schedule: =>
     if @msg_count > 0 and next(@processes) ~= nil
       pid = uscore.shift(@pids)
-      --p pid
       p_meta = @processes[pid]
+    
       if not uscore.is_empty(p_meta['inbox']) then
         msg = uscore.shift(p_meta['inbox'])
         restack = true

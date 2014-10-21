@@ -18,6 +18,7 @@ do
   local _parent_0 = Actor
   local _base_0 = {
     initialize = function(self, args)
+      print("Initialize TCounterClient")
       self:send(args['count_server'], Message('incr', math.random(1, 10)))
       self:send(args['count_server'], Message('incr', math.random(1, 10)))
       self:send(args['count_server'], Message('decr', math.random(1, 10)))

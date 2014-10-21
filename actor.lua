@@ -1,3 +1,8 @@
+local p
+do
+  local _obj_0 = require("moon")
+  p = _obj_0.p
+end
 local Actor
 do
   local _base_0 = {

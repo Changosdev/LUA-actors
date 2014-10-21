@@ -1,3 +1,4 @@
+import p from require "moon"
 class Actor
   setId: (id) =>
     @id = id
