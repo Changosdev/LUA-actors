@@ -75,6 +75,4 @@ do
   end
   TCounter = _class_0
 end
-return {
-  TCounter = TCounter
-}
+return TCounter

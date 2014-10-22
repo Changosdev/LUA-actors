@@ -28,4 +28,4 @@ class TCounterClient extends Actor
       @send(state['server'], Message('get_count', { sender: @selfe! } ))
     return state
 
-{ :TCounterClient }
+return TCounterClient

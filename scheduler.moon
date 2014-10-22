@@ -1,5 +1,5 @@
---import autoload from require "lib.autoload"
-import TCounter from require "actors.TCounter"
+import autoload from require "lib.autoload"
+--import TCounter from require "actors.TCounter"
 import TCounterClient from require "actors.TCounterClient"
 uscore = require 'lib/underscore'
 require("lib/uniqid")
@@ -19,17 +19,11 @@ class Scheduler
     @run = false
 
   spawn: (m, args = {}) =>
-    [[
-      IMPLENT AUTOLOAD
-    ]]
-    local obj, id
-    if m == 'TCounter' then
-      obj = TCounter!
-    else if m == 'TCounterClient' then
-      obj = TCounterClient!
-    else
-      print "Cannot find the actor: #{m}"
-      os.exit()
+    local actors,obj, id
+
+    actors = autoload("actors")
+    actor = actors[m] -- m is received from class constructor
+    obj = actor!
 
     id = uniqid!
     obj\setId id

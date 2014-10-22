@@ -1,7 +1,7 @@
-local TCounter
+local autoload
 do
-  local _obj_0 = require("actors.TCounter")
-  TCounter = _obj_0.TCounter
+  local _obj_0 = require("lib.autoload")
+  autoload = _obj_0.autoload
 end
 local TCounterClient
 do
@@ -34,19 +34,10 @@ do
       if args == nil then
         args = { }
       end
-      local _ = [[      IMPLENT AUTOLOAD
-    ]]
-      local obj, id
-      if m == 'TCounter' then
-        obj = TCounter()
-      else
-        if m == 'TCounterClient' then
-          obj = TCounterClient()
-        else
-          print("Cannot find the actor: " .. tostring(m))
-          os.exit()
-        end
-      end
+      local actors, obj, id
+      actors = autoload("actors")
+      local actor = actors[m]
+      obj = actor()
       id = uniqid()
       obj:setId(id)
       obj:setScheduler(self)

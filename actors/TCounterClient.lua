@@ -84,6 +84,4 @@ do
   end
   TCounterClient = _class_0
 end
-return {
-  TCounterClient = TCounterClient
-}
+return TCounterClient

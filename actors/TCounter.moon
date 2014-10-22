@@ -26,5 +26,5 @@ class TCounter extends Actor
     @send( msg['sender'], Message('count', state['count']))
     return state
 
-{ :TCounter }
+return TCounter
 
