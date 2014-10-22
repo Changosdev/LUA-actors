@@ -1,11 +1,9 @@
 --import autoload from require "lib.autoload"
 import TCounter from require "actors.TCounter"
 import TCounterClient from require "actors.TCounterClient"
-
 uscore = require 'lib/underscore'
 require("lib/uniqid")
 import p from require "moon"
-
 
 class Scheduler
   run: true
@@ -91,4 +89,4 @@ class Scheduler
         @processes[pid] = p_meta
       table.insert(@pids, pid)
 
-{ :Scheduler }
+return Scheduler

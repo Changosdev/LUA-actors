@@ -124,6 +124,4 @@ do
   _base_0.__class = _class_0
   Scheduler = _class_0
 end
-return {
-  Scheduler = Scheduler
-}
+return Scheduler

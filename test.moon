@@ -1,4 +1,4 @@
-import Scheduler from require "scheduler"
+Scheduler = require "scheduler"
 
 scheduler = Scheduler!
 counter = scheduler\spawn('TCounter', {})
