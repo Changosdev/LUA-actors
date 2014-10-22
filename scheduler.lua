@@ -3,11 +3,6 @@ do
   local _obj_0 = require("lib.autoload")
   autoload = _obj_0.autoload
 end
-local TCounterClient
-do
-  local _obj_0 = require("actors.TCounterClient")
-  TCounterClient = _obj_0.TCounterClient
-end
 local uscore = require('lib/underscore')
 require("lib/uniqid")
 local p

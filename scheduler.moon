@@ -1,6 +1,4 @@
 import autoload from require "lib.autoload"
---import TCounter from require "actors.TCounter"
-import TCounterClient from require "actors.TCounterClient"
 uscore = require 'lib/underscore'
 require("lib/uniqid")
 import p from require "moon"
