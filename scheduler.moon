@@ -3,7 +3,7 @@ import TCounter from require "actors.TCounter"
 import TCounterClient from require "actors.TCounterClient"
 
 uscore = require 'lib/underscore'
-
+require("lib/uniqid")
 import p from require "moon"
 
 
@@ -26,16 +26,14 @@ class Scheduler
     ]]
     local obj, id
     if m == 'TCounter' then
-      id = 257
       obj = TCounter!
     else if m == 'TCounterClient' then
-      id = 311
       obj = TCounterClient!
     else
       print "Cannot find the actor: #{m}"
       os.exit()
 
-    --id = spl_object_hash obj --
+    id = uniqid!
     obj\setId id
     obj\setScheduler @
     @addProcess id, obj
@@ -70,17 +68,17 @@ class Scheduler
     if @msg_count > 0 and next(@processes) ~= nil
       pid = uscore.shift(@pids)
       p_meta = @processes[pid]
-    
+
       if not uscore.is_empty(p_meta['inbox']) then
         msg = uscore.shift(p_meta['inbox'])
         restack = true
 
-
-        for k,receive in pairs(p_meta['receive'])  
+        for k,receive in pairs(p_meta['receive'])
           if receive == msg\getTag! then
             m = 'handle_' .. receive
             print "running handler: " .. m .. " in pid: " .. pid
-            state = p_meta['p']\m msg\getData!, p_meta['state']
+            actor = p_meta['p']
+            state = actor[m](actor, msg\getData!, p_meta['state'])
             p_meta['state'] = state
             restack = false
             break
@@ -88,8 +86,8 @@ class Scheduler
         if restack then
           table.insert(p_meta['inbox'], msg)
         else
-          @msg_count = @msg_count -1
-                  
+          @msg_count = @msg_count-1
+
         @processes[pid] = p_meta
       table.insert(@pids, pid)
 

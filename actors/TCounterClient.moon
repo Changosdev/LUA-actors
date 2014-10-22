@@ -16,7 +16,7 @@ class TCounterClient extends Actor
     return { 'count' }
 
   handle_count: (msg, state) =>
-    print "#{self!}: got count #{msg}"
+    print "#{@selfe!}: got count #{msg}"
     os.execute("sleep 2")
     _next = math.random(0,2)
 

@@ -35,7 +35,7 @@ do
       }
     end,
     handle_count = function(self, msg, state)
-      print(tostring(self()) .. ": got count " .. tostring(msg))
+      print(tostring(self:selfe()) .. ": got count " .. tostring(msg))
       os.execute("sleep 2")
       local _next = math.random(0, 2)
       if _next == 0 then

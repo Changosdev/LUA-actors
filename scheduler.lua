@@ -9,6 +9,7 @@ do
   TCounterClient = _obj_0.TCounterClient
 end
 local uscore = require('lib/underscore')
+require("lib/uniqid")
 local p
 do
   local _obj_0 = require("moon")
@@ -37,17 +38,16 @@ do
     ]]
       local obj, id
       if m == 'TCounter' then
-        id = 257
         obj = TCounter()
       else
         if m == 'TCounterClient' then
-          id = 311
           obj = TCounterClient()
         else
           print("Cannot find the actor: " .. tostring(m))
           os.exit()
         end
       end
+      id = uniqid()
       obj:setId(id)
       obj:setScheduler(self)
       self:addProcess(id, obj)
@@ -90,7 +90,8 @@ do
             if receive == msg:getTag() then
               local m = 'handle_' .. receive
               print("running handler: " .. m .. " in pid: " .. pid)
-              local state = p_meta['p']:m(msg:getData(), p_meta['state'])
+              local actor = p_meta['p']
+              local state = actor[m](actor, msg:getData(), p_meta['state'])
               p_meta['state'] = state
               restack = false
               break
@@ -99,7 +100,7 @@ do
           if restack then
             table.insert(p_meta['inbox'], msg)
           else
-            self.msg_count = self:msg_count(-1)
+            self.msg_count = self.msg_count - 1
           end
           self.processes[pid] = p_meta
         end

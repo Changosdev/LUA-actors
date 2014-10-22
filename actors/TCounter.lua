@@ -1,7 +1,17 @@
+local p
+do
+  local _obj_0 = require("moon")
+  p = _obj_0.p
+end
 local Actor
 do
   local _obj_0 = require("actor")
   Actor = _obj_0.Actor
+end
+local Message
+do
+  local _obj_0 = require("message")
+  Message = _obj_0.Message
 end
 local TCounter
 do
@@ -21,8 +31,17 @@ do
       }
     end,
     handle_incr = function(self, msg, state)
-      print(" -> handle_incr: " .. msg)
-      state['count'] = state['count'] .. msg
+      state['count'] = state['count'] + msg
+      return state
+    end,
+    handle_decr = function(self, msg, state)
+      print("handle_decr: " .. msg)
+      state['count'] = state['count'] - msg
+      return state
+    end,
+    handle_get_count = function(self, msg, state)
+      print("handle_get_count: " .. tostring(msg['sender']))
+      self:send(msg['sender'], Message('count', state['count']))
       return state
     end
   }
