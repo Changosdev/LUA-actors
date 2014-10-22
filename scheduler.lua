@@ -75,7 +75,6 @@ do
           for k, receive in pairs(p_meta['receive']) do
             if receive == msg:getTag() then
               local m = 'handle_' .. receive
-              print("running handler: " .. m .. " in pid: " .. pid)
               local actor = p_meta['p']
               local state = actor[m](actor, msg:getData(), p_meta['state'])
               p_meta['state'] = state
